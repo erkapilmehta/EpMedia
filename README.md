@@ -1,291 +1,291 @@
-[![](https://img.shields.io/badge/minSdkVersion-16-green.svg)](https://developer.android.google.cn) [![](https://img.shields.io/badge/FFmpeg-3.3.4-orange.svg)](https://ffmpeg.org/download.html#release_3.3) [![](https://img.shields.io/badge/release-v0.9.5-blue.svg)](https://github.com/yangjie10930/EpMedia)
+[![](https://img.shields.io/badge/minSdkVersion-16-green.svg)](https://developer.android.google.cn) [![](https://img. Shields.io/badge/FFmpeg-3.3.4-orange.svg)](https://ffmpeg.org/download.html#release_3.3) [![](https://img.shields.io/badge /release-v0.9.5-blue.svg)](https://github.com/yangjie10930/EpMedia)
 
 # EpMedia
-基于FFmpeg开发的视频处理框架，简单易用，体积小，帮助使用者快速实现视频处理功能。包含以下功能：剪辑，裁剪，旋转，镜像，合并，分离，添加LOGO，添加滤镜，添加背景音乐，加速减速视频，倒放音视频。</br>
+The video processing framework developed based on FFmpeg is easy to use and small in size, helping users to quickly implement video processing functions. It includes the following functions: editing, cropping, rotating, mirroring, merging, separating, adding LOGO, adding filters, adding background music, accelerating deceleration video, and rewinding audio and video. </br>
 
-目前还在完善和修复一些bug,如果使用中遇到问题请在Issues留言或联系我:yangjie10930@sina.cn。
+At present, we are still improving and fixing some bugs. If you encounter problems in use, please leave a message in Issues or contact me: yangjie10930@sina.cn.
 
-如遇到报错，请把logcat信息一并贴出。
+If you get an error, please post the logcat information together.
 
-好用的话麻烦给个star,感谢您的支持与鼓励O(∩_∩)O
+If you use it, please give it a star. Thank you for your support and encouragement O(∩_∩)O
 
-<a href="https://github.com/yangjie10930/EpMediaDemo" target="_blank">Demo点这里</a>   
+<a href="https://github.com/yangjie10930/EpMediaDemo" target="_blank">Demo click here</a>
 
-PS：近期计划修复一些BUG，并整理编译的脚本开源，替换新版本的FFmpeg，再公布一个全格式支持的so库，但是因近期工作繁忙，无暇分身，只能忙过这一阵再来处理，希望能有对音视频有一定了解的朋友来帮助我完善这个库，有意愿的朋友可以联系我，我会提供相应的资源，谢谢！
+PS: I plan to fix some bugs in the near future, and compile the compiled scripts open source, replace the new version of FFmpeg, and then publish a full-format supported so library, but because of the recent busy work, innocent avatars, can only be busy with this array to deal with, hope Can have a certain understanding of audio and video friends to help me improve this library, friends who are willing to contact me, I will provide the corresponding resources, thank you!
 
-## 使用方法:
-* build.gradle里添加:
+## Instructions:
+* Added in build.gradle:
 ```Java
-allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+Allprojects {
+Repositories {
+...
+Maven { url 'https://jitpack.io' }
+}
+}
 ```
-* 添加gradle依赖:
+* Add gradle dependencies:
 ```Java
-compile 'com.github.yangjie10930:EpMedia:v0.9.5'
+Compile 'com.github.yangjie10930:EpMedia:v0.9.5'
 ```
-## 单个视频处理:
-* 创建待处理视频:
+## Single video processing:
+* Create a pending video:
 ```Java
 EpVideo epVideo = new EpVideo(url);
 ```
-* 剪辑
+* Clip
 ```Java
-//一个参数为剪辑的起始时间，第二个参数为持续时间,单位：秒
-epVideo.clip(1,2);//从第一秒开始，剪辑两秒
+// One parameter is the start time of the clip, and the second parameter is the duration, in seconds.
+epVideo.clip(1,2);//Starting from the first second, editing for two seconds
 ```
-* 裁剪
+* Cropping
 ```Java
-//参数分别是裁剪的宽，高，起始位置X，起始位置Y
+//The parameters are the width of the crop, the height, the starting position X, and the starting position Y.
 epVideo.crop(480,360,0,0);
 ```
-* 旋转和镜像
+* Rotate and mirror
 ```Java
-//第一个参数为旋转角度，第二个参数为是否镜像，仅支持90,180,270度旋转
+/ / The first parameter is the rotation angle, the second parameter is whether to mirror, only supports 90, 180, 270 degrees rotation
 epVideo.rotation(90,true);
 ```
-* 添加文字
+* Add text
 ```Java
-//参数分别是添加位置的X,Y坐标,文字的字号(单位px),文字颜色,字体文件的路径,内容，Time类为显示的起始时间和持续时间
+//The parameters are the X, Y coordinates of the added position, the font size of the text (unit px), the text color, the path of the font file, the content, and the Time class is the start time and duration of the display.
 epVideo.addText(10,10,35,"red",ttfPath,text);
 epVideo.addText(new EpText(10,10,35,"red",ttfPath,text,new EpText.Time(3,5)));
 ```
-* 添加logo
+* Add logo
 ```Java
-//添加图片类
-//参数为图片路径,X,Y,图片的宽,高,是否是动图(仅支持png,jpg,gif图片,如果是gif图片,最后一个参数为true)
+/ / Add a picture class
+/ / parameter is the image path, X, Y, the width, height of the picture, whether it is a motion picture (only supports png, jpg, gif picture, if it is a gif picture, the last parameter is true)
 EpDraw epDraw = new EpDraw(filePath,10,10,50,50,false);
 epVideo.addDraw(epDraw);
-或
-epVideo.addDraw(new EpDraw(filePath,10,10,50,50,false,3,5));//最后两个参数为显示的起始时间和持续时间
+or
+epVideo.addDraw(new EpDraw(filePath,10,10,50,50,false,3,5));//The last two parameters are the start time and duration of the display.
 ```
-* 添加自定义滤镜
+* Add custom filters
 ```Java
-//自定义滤镜，ffmpeg命令支持的滤镜都支持
-//详细效果可参考：http://blog.csdn.net/u012027644/article/details/77833484
-//具体内容参见ffmpeg filter官网：http://www.ffmpeg.org/ffmpeg-filters.html
-//举例 String filter = "lutyuv=y=maxval+minval-val:u=maxval+minval-val:v=maxval+minval-val";//底片效果
+/ / Custom filter, ffmpeg command support filters are supported
+/ / Detailed results can be found at: http://blog.csdn.net/u012027644/article/details/77833484
+/ / See the ffmpeg filter official website for details: http://www.ffmpeg.org/ffmpeg-filters.html
+//Example String filter = "lutyuv=y=maxval+minval-val:u=maxval+minval-val:v=maxval+minval-val";//film effect
 epVideo.addFilter(filter);
 ```
-* 处理单个视频
+* Process a single video
 ```Java
 EpVideo epVideo = new EpVideo(url);
-//输出选项，参数为输出文件路径(目前仅支持mp4格式输出)
+/ / Output options, the parameters are the output file path (currently only supports mp4 format output)
 EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outFile);
-outputOption.width = 480;//输出视频宽，如果不设置则为原始视频宽高
-outputOption.height = 360;//输出视频高度
-outputOption.frameRate = 30;//输出视频帧率,默认30
-outputOption.bitRate = 10;//输出视频码率,默认10
+outputOption.width = 480; / / output video width, if not set, the original video width and height
+outputOption.height = 360; / / output video height
+outputOption.frameRate = 30; / / output video frame rate, the default 30
+outputOption.bitRate = 10; / / output video bit rate, the default 10
 EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
-		//这里获取处理进度
-	}
+@Override
+Public void onProgress(float progress) {
+/ / Get the progress here
+}
 });
 ```
-* 添加背景音乐
+* Add background music
 ```Java
-//参数分别是视频路径，音频路径，输出路径,原始视频音量(1为100%,0.7为70%,以此类推),添加音频音量
+/ / Parameters are video path, audio path, output path, original video volume (1 is 100%, 0.7 is 70%, and so on), add audio volume
 EpEditor.music(videoPath, audioPath, outfilePath, 1, 0.7, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
-		//这里获取处理进度
-	}
+@Override
+Public void onProgress(float progress) {
+/ / Get the progress here
+}
 });
 ```
-* 分离音视频
+* Separate audio and video
 ```Java
-//参数分别是视频路径，输出路径，输出类型
+/ / parameters are video path, output path, output type
 EpEditor.demuxer(videoPath, outfilePath,EpEditor.Format.MP3, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
-		//这里获取处理进度
-	}
+@Override
+Public void onProgress(float progress) {
+/ / Get the progress here
+}
 });
 ```
-* 视频变速
+* Video shifting
 ```Java
-//参数分别是视频路径,输出路径,变速倍率（仅支持0.25-4倍),变速类型(VIDEO-视频(选择VIDEO的话则会屏蔽音频),AUDIO-音频,ALL-视频音频同时变速)
+//Parameters are video path, output path, variable speed (only 0.25-4 times), variable speed type (VIDEO-video (when VIDEO is selected, audio will be shielded), AUDIO-audio, ALL-video audio simultaneous shifting)
 EpEditor.changePTS(videoPath, outfilePath, 2.0f, EpEditor.PTS.ALL, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
+@Override
+Public void onProgress(float progress) {
 
-	}
+}
 });
 ```
-* 音视频倒放
+* Audio and video upside down
 ```Java
-////参数分别是视频路径,输出路径,视频是否倒放，音频是否倒放（两个都选true的话，音视频都倒放，视频ture音频false的话，输出倒放的无音频视频，视频false音频ture的话，输入倒放的音频，音频的倒放也用这个配置）
+////The parameters are video path, output path, whether the video is inverted, and whether the audio is inverted. (If both are true, the audio and video are reversed. If the video ture audio is false, the output is inverted without audio video. Video false audio ture, input inverted audio, audio reversal also use this configuration)
 EpEditor.reverse(videoPath, outfilePath, true, true, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
+@Override
+Public void onProgress(float progress) {
 
-	}
+}
 });
 ```
-* 视频转图片
+* Video to picture
 ```Java
-////参数分别是视频路径,输出路径（路径用集合的形式，比如pic%03d.jpg,支持jpg和png两种图片格式）,输出图片的宽度，输出图片的高度，每秒输出图片数量（2的话就是每秒2张，0.5f的话就是每两秒一张）
+The //// parameters are the video path and the output path (the path is in the form of a collection, such as pic%03d.jpg, which supports jpg and png image formats), the width of the output image, the height of the output image, and the output image per second. Quantity (2 words per second, 0.5f is one every two seconds)
 EpEditor.video2pic(videoPath, outfilePath, 720, 1080, 2, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
+@Override
+Public void onProgress(float progress) {
 
-	}
+}
 });
 ```
-* 图片转视频
+* Picture to video
 ```Java
-////参数分别是图片集合路径,输出路径,输出视频的宽度，输出视频的高度，输出视频的帧率
+The //// parameters are the image collection path, the output path, the width of the output video, the height of the output video, and the frame rate of the output video.
 EpEditor.pic2video(picPath, outfilePath, 480, 320, 30, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
+@Override
+Public void onProgress(float progress) {
 
-	}
+}
 });
 ```
-## 多个视频处理&合并
-* 合并视频（支持对要合并的视频进行其他处理操作）
+## Multiple Video Processing & Merging
+* Merge video (supports additional processing of videos to be merged)
 ```Java
 ArrayList<EpVideo> epVideos = new ArrayList<>();
-epVideos.add(new EpVideo(url));//视频1
-epVideos.add(new EpVideo(url2));//视频2
-epVideos.add(new EpVideo(url3));//视频3
-//输出选项，参数为输出文件路径(目前仅支持mp4格式输出)
+epVideos.add(new EpVideo(url));//Video 1
+epVideos.add(new EpVideo(url2));//Video 2
+epVideos.add(new EpVideo(url3));//Video 3
+/ / Output options, the parameters are the output file path (currently only supports mp4 format output)
 EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outFile);
-outputOption.width = 480;//输出视频宽，默认480
-outputOption.height = 360;//输出视频高度,默认360
-outputOption.frameRate = 30;//输出视频帧率,默认30
-outputOption.bitRate = 10;//输出视频码率,默认10
+outputOption.width = 480; / / output video width, the default 480
+outputOption.height = 360; / / output video height, default 360
+outputOption.frameRate = 30; / / output video frame rate, the default 30
+outputOption.bitRate = 10; / / output video bit rate, the default 10
 EpEditor.merge(epVideos, outputOption, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
-	
-	@Override
-	public void onProgress(float progress) {
-		//这里获取处理进度
-	}
+}
+
+@Override
+Public void onProgress(float progress) {
+/ / Get the progress here
+}
 });
 ```
-* 无损合并视频(对视频格式严格，需要分辨率，帧率，码率都相同，不支持对要合并的视频进行其他处理操作，该方法合并速度很快，另：两段同格式的音频拼接也可使用该方法)
+* Lossless combined video (strict video format, resolution, frame rate, and code rate are the same. It does not support other processing operations on the video to be merged. This method combines quickly. Another: two segments of the same format audio stitching You can also use this method)
 ```Java
 ArrayList<EpVideo> epVideos = new ArrayList<>();
-epVideos.add(new EpVideo(url));//视频1
-epVideos.add(new EpVideo(url2));//视频2
-epVideos.add(new EpVideo(url3));//视频3
+epVideos.add(new EpVideo(url));//Video 1
+epVideos.add(new EpVideo(url2));//Video 2
+epVideos.add(new EpVideo(url3));//Video 3
 EpEditor.mergeByLc(epVideos, new EpEditor.OutputOption(outFile), new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
-			//这里获取处理进度
-	}
+@Override
+Public void onProgress(float progress) {
+/ / Get the progress here
+}
 });
 ```
-## 自定义命令
-* 输入ffmpeg命令即可（起头不用输ffmpeg,例子"-i input.mp4 -ss 0 -t 5 output.mp4",第二个参数为视频长度，单位微秒，可以填0）
+## Custom Command
+* Enter the ffmpeg command (you don't need to lose ffmpeg at the beginning, the example "-i input.mp4 -ss 0 -t 5 output.mp4", the second parameter is the video length, in microseconds, you can fill 0)
 ```Java
 EpEditor.execCmd("", 0, new OnEditorListener() {
-	@Override
-	public void onSuccess() {
+@Override
+Public void onSuccess() {
 
-	}
+}
 
-	@Override
-	public void onFailure() {
+@Override
+Public void onFailure() {
 
-	}
+}
 
-	@Override
-	public void onProgress(float progress) {
+@Override
+Public void onProgress(float progress) {
 
-	}
+}
 });
 ```
